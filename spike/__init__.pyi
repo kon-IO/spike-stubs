@@ -1138,15 +1138,20 @@ class ColorSensor:
             The sensor has been disconnected from the Port.
         """
 
-_Gesture_With_none: TypeAlias = Literal["shaken", "tapped", "double-tapped", "falling", "none"]
+
+_Gesture_With_none: TypeAlias = Literal["shaken",
+                                        "tapped", "double-tapped", "falling", "none"]
 _Gesture: TypeAlias = Literal["shaken", "tapped", "double-tapped", "falling"]
-_Orientation: TypeAlias = Literal["front", "back", "up", "down", "leftside", "rightside"]
+_Orientation: TypeAlias = Literal["front",
+                                  "back", "up", "down", "leftside", "rightside"]
 
 
 class MotionSensor:
     """Do not instantiate this class manually. Use hub = PrimeHub(); hub.motion_sensor instead.
     """
+
     def __init__(self) -> None: ...
+
     def was_gesture(self, gesture: _Gesture_With_none) -> bool:
         """Tests whether a gesture has occurred since the last time was_gesture() was used, or since the beginning of the program (for the first use).
 
@@ -1166,7 +1171,7 @@ class MotionSensor:
             gesture is not a string.
         ValueError
             gesture is not one of the allowed values.
-        
+
         Example
         -------
         ::
@@ -1188,7 +1193,7 @@ class MotionSensor:
         -------
         _Gesture
             The new gesture.
-        
+
         Example
         -------
         ::
@@ -1204,7 +1209,7 @@ class MotionSensor:
                 # do another thing
 
         """
-    
+
     def wait_for_new_orientation(self) -> _Orientation:
         """Waits until the Hub’s orientation changes.
 
@@ -1214,7 +1219,7 @@ class MotionSensor:
         -------
         _Orientation
             The Hub’s new orientation.
-        
+
         Example
         -------
         ::
@@ -1230,7 +1235,7 @@ class MotionSensor:
                 # do another thing
 
         """
-    
+
     def get_orientation(self) -> _Orientation:
         """Retrieves the Hub's current orientation.
 
@@ -1238,7 +1243,7 @@ class MotionSensor:
         -------
         _Orientation
             The Hub’s current orientation.
-        
+
 
         Example
         -------
@@ -1252,7 +1257,7 @@ class MotionSensor:
                 # do something
 
         """
-    
+
     def get_gesture(self) -> _Gesture:
         """Retrieves the most recently-detected gesture.
 
@@ -1260,7 +1265,7 @@ class MotionSensor:
         -------
         _Gesture
             The gesture.
-        
+
         Example
         -------
         ::
@@ -1274,7 +1279,7 @@ class MotionSensor:
                     print("Aaah!")
 
         """
-    
+
     def get_roll_angle(self) -> int:
         """Retrieves the Hub’s roll angle.
 
@@ -1297,7 +1302,7 @@ class MotionSensor:
                 # do something
 
         """
-    
+
     def get_pitch_angle(self) -> int:
         """Retrieves the Hub’s pitch angle.
 
@@ -1307,7 +1312,7 @@ class MotionSensor:
         -------
         int
             The pitch angle, specified in degrees (-180 to 180).
-        
+
         Example
         -------
         ::
@@ -1320,7 +1325,7 @@ class MotionSensor:
                 # do something
 
         """
-    
+
     def get_yaw_angle(self) -> int:
         """Retrieves the Hub’s yaw angle.
 
@@ -1330,11 +1335,11 @@ class MotionSensor:
         -------
         int
             The yaw angle, specified in degrees (-180 to 180).
-        
+
         Example
         -------
         ::
-        
+
             from spike import PrimeHub
 
             hub = PrimeHub()
@@ -1343,7 +1348,7 @@ class MotionSensor:
                 # do something
 
         """
-    
+
     def reset_yaw_angle(self) -> None:
         """Sets the yaw angle to "0."
 
@@ -1363,6 +1368,125 @@ class MotionSensor:
 
         """
 
+
+_Image: TypeAlias = Literal["ANGRY", "ARROW_E", "ARROW_N", "ARROW_NE", "ARROW_NW", "ARROW_S", "ARROW_SE", "ARROW_SW", "ARROW_W", "ASLEEP", "BUTTERFLY", "CHESSBOARD", "CLOCK1", "CLOCK10", "CLOCK11", "CLOCK12", "CLOCK2", "CLOCK3", "CLOCK4", "CLOCK5", "CLOCK6", "CLOCK7", "CLOCK8", "CLOCK9", "CONFUSED", "COW", "DIAMOND", "DIAMOND_SMALL", "DUCK", "FABULOUS", "GHOST", "GIRAFFE", "GO_RIGHT",
+                            "GO_LEFT", "GO_UP", "GO_DOWN", "HAPPY", "HEART", "HEART_SMALL", "HOUSE", "MEH", "MUSIC_CROTCHET", "MUSIC_QUAVER", "MUSIC_QUAVERS", "NO", "PACMAN", "PITCHFORK", "RABBIT", "ROLLERSKATE", "SAD", "SILLY", "SKULL", "SMILE", "SNAKE", "SQUARE", "SQUARE_SMALL", "STICKFIGURE", "SURPRISED", "SWORD", "TARGET", "TORTOISE", "TRIANGLE", "TRIANGLE_LEFT", "TSHIRT", "UMBRELLA", "XMAS", "YES"]
+
+
+class LightMatrix:
+    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.light_matrix instead.
+    """
+
+    def __init__(self) -> None: ...
+
+    def show_image(self, image: _Image, brightness: int = 100) -> None:
+        """Shows an image on the Light Matrix.
+
+        Parameters
+        ----------
+        image : _Image
+            Name of the image.
+        brightness : int, optional
+            Brightness of the image (0 to 100), by default 100
+
+        Raises
+        ------
+        TypeError
+            image is not a string or brightness is not an integer.
+        ValueError
+            image is not one of the allowed values.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+            from spike.control import wait_for_seconds
+
+            hub = PrimeHub()
+
+            hub.light_matrix.show_image('HAPPY')
+            wait_for_seconds(5)
+            hub.light_matrix.show_image('ASLEEP')
+            wait_for_seconds(5)
+
+        """
+
+    def set_pixel(self, x: int, y: int, brightness=100) -> None:
+        # XXX: Contradicting documentation. Is x, y 1-5 or 0-4?
+        """Sets the brightness of one pixel (one of the 25 LEDs) on the Light Matrix.
+
+        Parameters
+        ----------
+        x : int
+            Pixel position, counting from the left (1 to 5).
+        y : int
+            Pixel position, counting from the top (1 to 5).
+        brightness : int, optional
+            Brightness of the pixel (0 to 100), by default 100
+
+        Raises
+        ------
+        TypeError
+            x, y or brightness is not an integer.
+        ValueError
+            x, y is not within the allowed range of 0-4.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.light_matrix.set_pixel(1, 4)
+
+        """
+
+    def write(self, text: str) -> None:
+        """Displays text on the Light Matrix, one letter at a time, scrolling from right to left.
+
+        Your program will not continue until all of the letters have been shown.
+
+        Parameters
+        ----------
+        text : str
+            Text to write.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.light_matrix.write('Hello!')
+
+
+            # Show the number "1" on the Light Matrix
+
+            hub.light_matrix.write('1')
+
+        """
+
+    def off(self) -> None:
+        """Turns off all of the pixels on the Light Matrix.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.light_matrix.off()
+
+        """
+
+
 class PrimeHub:
     """The Hub is divided into six components, each with a number of functions linked to it.
 
@@ -1379,5 +1503,7 @@ class PrimeHub:
         hub = PrimeHub()
 
     """
+
     def __init__(self) -> None:
         self.motion_sensor = MotionSensor()
+        self.light_matrix = LightMatrix()
