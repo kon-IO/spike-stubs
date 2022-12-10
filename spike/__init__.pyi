@@ -1362,3 +1362,22 @@ class MotionSensor:
             # Angle is now 0
 
         """
+
+class PrimeHub:
+    """The Hub is divided into six components, each with a number of functions linked to it.
+
+    To use the Hub, you must first initialize it.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+
+        # Initialize the Hub
+        hub = PrimeHub()
+
+    """
+    def __init__(self) -> None:
+        self.motion_sensor = MotionSensor()
