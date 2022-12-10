@@ -1543,7 +1543,9 @@ class StatusLight:
 class Speaker:
     """Do not instantiate this class manually. Use hub = PrimeHub(); hub.speaker instead.
     """
+
     def __init__(self) -> None: ...
+
     def beep(self, note: float = 60, seconds: float = 0.2) -> None:
         """Plays a beep on the Hub.
 
@@ -1562,7 +1564,7 @@ class Speaker:
             note is not an integer or seconds is not a number.
         ValueError
             note is not within the allowed range of 44-123.
-        
+
         Example
         -------
         ::
@@ -1579,7 +1581,7 @@ class Speaker:
             hub.speaker.beep(60, 0.5)
 
         """
-    
+
     def start_beep(self, note: float = 60) -> None:
         """Starts playing a beep.
 
@@ -1596,7 +1598,7 @@ class Speaker:
             note is not an integer.
         ValueError
             note is not within the allowed range of 44-123.
-        
+
         Example
         -------
         ::
@@ -1612,7 +1614,7 @@ class Speaker:
             hub.speaker.stop()
 
         """
-    
+
     def stop(self) -> None:
         """Stops any sound that is playing.
 
@@ -1631,7 +1633,7 @@ class Speaker:
             hub.speaker.stop()
 
         """
-    
+
     def get_volume(self) -> int:
         """Retrieves the value of the speaker volume.
 
@@ -1641,7 +1643,7 @@ class Speaker:
         -------
         int
             The current volume (0 to 100).
-        
+
         Example
         -------
         ::
@@ -1656,7 +1658,7 @@ class Speaker:
             hub.speaker.set_volume(hub.speaker.get_volume() + 10)
 
         """
-    
+
     def set_volume(self, volume: int) -> None:
         """Sets the speaker volume.
 
@@ -1671,7 +1673,7 @@ class Speaker:
         ------
         TypeError
             volume is not an integer.
-        
+
         Example
         -------
         ::
@@ -1687,6 +1689,161 @@ class Speaker:
 
         """
         raise TypeError
+
+
+class ForceSensor:
+    """To use the Force Sensor, you must first initialize it.
+
+    Example
+    -------
+    ::
+
+        from spike import ForceSensor
+
+
+        # Initialize the Force Sensor
+        force = ForceSensor('E')
+
+    """
+
+    def __init__(self) -> None: ...
+
+    def is_pressed(self) -> bool:
+        """Tests whether the button on the sensor is pressed.
+
+        Returns
+        -------
+        bool
+            True if the button is pressed.
+
+        Raises
+        ------
+        RuntimeError
+            The Force Sensor has been disconnected from the port.
+
+        Example
+        -------
+        ::
+
+            from spike import ForceSensor
+
+
+            # Initialize the Force Sensor
+
+            door_bell = ForceSensor('E')
+
+
+            # Check whether the Force Sensor is pressed
+
+            if door_bell.is_pressed():
+                print('Hello!')
+
+        """
+
+    def get_force_newton(self) -> float:
+        """Retrieves the measured force, in newtons.
+
+        Returns
+        -------
+        float
+            The measured force, specified in newtons (0 to 10)
+
+        Raises
+        ------
+        RuntimeError
+            The Force Sensor has been disconnected from the port.
+
+        Example
+        -------
+        ::
+
+            from spike import ForceSensor
+
+
+            # Initialize the Force Sensor
+
+            door_bell = ForceSensor('E')
+
+
+            # Measure the force in newtons or as a percentage
+
+            newtons = door_bell.get_force_newton()
+            percentage = door_bell.get_force_percentage()
+
+
+            # Print both results
+
+            print('N:', newtons, '=', percentage, '%')
+
+
+            # Check whether the Force Sensor is pressed
+
+            if door_bell.is_pressed():
+                print('Hello!')
+
+        """
+
+    def get_force_percentage(self) -> int:
+        """Retrieves the measured force as a percentage of the maximum force.
+
+        Returns
+        -------
+        int
+            The measured force, given as a percentage (0 to 100).
+
+        Raises
+        ------
+        RuntimeError
+            The Force Sensor has been disconnected from the port.
+        """
+
+    def wait_until_pressed(self) -> None:
+        """Waits until the Force Sensor is pressed.
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the port.
+
+        Example
+        -------
+        ::
+
+            from spike import ForceSensor
+
+            force_sensor = ForceSensor('A')
+
+            while True:
+                force_sensor.wait_until_pressed()
+                # do something, for example, start a motor
+                force_sensor.wait_until_released()
+                # do something, for example, stop a motor
+
+        """
+
+    def wait_until_released(self) -> None:
+        """Waits until the Force Sensor is released.
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import ForceSensor
+
+            force_sensor = ForceSensor('A')
+
+            while True:
+                force_sensor.wait_until_pressed()
+                # do something, for example, start a motor
+                force_sensor.wait_until_released()
+                # do something, for example, stop a motor
+
+        """
 
 
 class PrimeHub:
