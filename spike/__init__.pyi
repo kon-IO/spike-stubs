@@ -1,4 +1,4 @@
-from typing import Literal, TypeAlias, Optional, Tuple
+from typing import Literal, TypeAlias, Optional, Tuple, Union
 
 PortLetter: TypeAlias = Literal["A", "B", "C", "D", "E", "F"]
 
@@ -1841,6 +1841,237 @@ class ForceSensor:
                 force_sensor.wait_until_pressed()
                 # do something, for example, start a motor
                 force_sensor.wait_until_released()
+                # do something, for example, stop a motor
+
+        """
+
+
+_DistanceUnit: TypeAlias = Literal["cm", "in", "%"]
+
+
+class DistanceSensor:
+    """To use the Distance Sensor, you must first initialize it.
+
+    Example
+    -------
+    ::
+
+        from spike import DistanceSensor
+
+
+        # Initialize the Distance Sensor
+        distance = DistanceSensor('A')
+
+    """
+
+    def __init__(self) -> None: ...
+
+    def light_up_all(self, brightness: int = 100) -> None:
+        """Lights up all of the lights on the Distance Sensor at the specified brightness.
+
+        Parameters
+        ----------
+        brightness : int, optional
+            The specified brightness of all of the lights (0 is off, 100 is full brightness). By default 100
+
+        Raises
+        ------
+        TypeError
+            brightness is not a number.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import DistanceSensor
+
+            distance_sensor = DistanceSensor('A')
+
+
+            # Turn on the lights
+
+            distance_sensor.light_up_all()
+
+
+            # Turn off the lights
+
+            distance_sensor.light_up_all(0)
+
+        """
+
+    def light_up(self, right_top: int, left_top: int, right_bottom: int, left_bottom: int) -> None:
+        """Sets the brightness of the individual lights on the Distance Sensor.
+
+        Parameters
+        ----------
+        right_top : int
+            The brightness of the light that’s above the right part of the Distance Sensor.
+        left_top : int
+            The brightness of the light that’s above the left part of the Distance Sensor.
+        right_bottom : int
+            The brightness of the light that’s below the right part of the Distance Sensor.
+        left_bottom : int
+            The brightness of the light that’s below the left part of the Distance Sensor.
+
+        Raises
+        ------
+        TypeError
+            right_top, left_top, right_bottom or left_bottom is not a number.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import DistanceSensor
+
+            distance_sensor = DistanceSensor('A')
+
+
+            # Switch on the top lights of the Distance Sensor
+
+            distance_sensor.light_up(100, 100, 0, 0)
+
+        """
+
+    def get_distance_cm(self, short_range: bool = False) -> Union[float, Literal["none"]]:
+        """Retrieves the measured distance in centimeters.
+
+        Parameters
+        ----------
+        short_range : bool, optional
+            Whether or not to use short range mode. Short range mode increases accuracy, but it can only detect nearby objects. By default False
+
+        Returns
+        -------
+        Union[float, Literal["none"]]
+            The measured distance or "none" if the distance can't be measured.
+
+        Raises
+        ------
+        TypeError
+            short_range is not a boolean.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_distance_inches(self, short_range: bool = False) -> Union[float, Literal["none"]]:
+        """Retrieves the measured distance in inches.
+
+        Parameters
+        ----------
+        short_range : bool, optional
+            Whether or not to use short range mode. Short range mode increases accuracy, but it can only detect nearby objects. By default False
+
+        Returns
+        -------
+        Union[float, Literal["none"]]
+            The measured distance or "none" if the distance can't be measured.
+
+        Raises
+        ------
+        TypeError
+            short_range is not a boolean.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+        raise TypeError
+        raise RuntimeError
+
+    def get_distance_percentage(self, short_range: bool = False) -> Union[int, Literal["none"]]:
+        """Retrieves the measured distance as a percentage.
+
+        Parameters
+        ----------
+        short_range : bool, optional
+            Whether or not to use short range mode. Short range mode increases accuracy, but it can only detect nearby objects. By default False
+
+        Returns
+        -------
+        Union[int, Literal["none"]]
+            The measured distance or "none" if the distance can't be measured.
+
+        Raises
+        ------
+        TypeError
+            short_range is not a boolean.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def wait_for_distance_farther_than(self, distance: float, unit: _DistanceUnit = "cm", short_range: bool = False) -> None:
+        """Waits until the measured distance is greater than the specified distance.
+
+        Parameters
+        ----------
+        distance : float
+            The target distance to be detected from the sensor to an object.
+        unit : _DistanceUnit, optional
+            The unit in which the distance is measured. By default 'cm'
+        short_range : bool, optional
+            Whether or not to use short range mode. Short range mode increases accuracy, but it can only detect nearby objects. By default False
+
+        Raises
+        ------
+        TypeError
+            distance is not a number or unit is not a string or short_range is not a boolean.
+        ValueError
+            unit is not one of the allowed values.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import DistanceSensor
+
+            distance_sensor = DistanceSensor('A')
+
+            while True:
+                distance_sensor.wait_for_distance_farther_than(20, 'cm')
+                # do something, for example, start a motor
+                distance_sensor.wait_for_distance_closer_than(20, 'cm')
+                # do something, for example, stop a motor
+
+        """
+
+    def wait_for_distance_closer_than(self, distance: float, unit: _DistanceUnit = "cm", short_range: bool = False) -> None:
+        """Waits until the measured distance is less than the specified distance.
+
+        Parameters
+        ----------
+        distance : float
+            The target distance to be detected from the sensor to an object.
+        unit : _DistanceUnit, optional
+            The unit in which the distance is measured. By default 'cm'
+        short_range : bool, optional
+            Whether or not to use short range mode. Short range mode increases accuracy, but it can only detect nearby objects. By default False
+
+        Raises
+        ------
+        TypeError
+            distance is not a number or unit is not a string or short_range is not a boolean.
+        ValueError
+            unit is not one of the allowed values.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import DistanceSensor
+
+            distance_sensor = DistanceSensor('A')
+
+            while True:
+                distance_sensor.wait_for_distance_farther_than(20, 'cm')
+                # do something, for example, start a motor
+                distance_sensor.wait_for_distance_closer_than(20, 'cm')
                 # do something, for example, stop a motor
 
         """
