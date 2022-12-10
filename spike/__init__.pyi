@@ -1,4 +1,4 @@
-from typing import Literal, TypeAlias, Optional
+from typing import Literal, TypeAlias, Optional, Tuple
 
 PortLetter: TypeAlias = Literal["A", "B", "C", "D", "E", "F"]
 
@@ -584,7 +584,7 @@ class MotorPair:
 
             motor_pair.stop()
         """
-    
+
     def stop(self) -> None:
         """Stops both motors simultaneously, which will stop a Driving Base.
 
@@ -608,9 +608,9 @@ class MotorPair:
             # wait for something
 
             motor_pair.stop()
-            
+
         """
-    
+
     def move_tank(self, amount: float, unit: _Unit = "cm", left_speed: Optional[int] = None, right_speed: Optional[int] = None) -> None:
         """Moves the Driving Base using differential (tank) steering.
 
@@ -648,7 +648,7 @@ class MotorPair:
             unit is not one of the allowed values.
         RuntimeError
             One or both of the Ports do not have a motor connected or the motors could not be paired.
-        
+
         Example
         -------
         ::
@@ -659,7 +659,7 @@ class MotorPair:
             motor_pair.move_tank(10, 'cm', left_speed=25, right_speed=75)
 
         """
-    
+
     def start_tank(self, left_speed: int, right_speed: int) -> None:
         """Starts moving the Driving Base using differential (tank) steering.
 
@@ -685,7 +685,7 @@ class MotorPair:
             left_speed or right_speed is not an integer
         RuntimeError
             One or both of the Ports do not have a motor connected or the motors could not be paired.
-        
+
         Example
         -------
         ::
@@ -700,7 +700,7 @@ class MotorPair:
             motor_pair.start_tank(100, -100)
 
         """
-    
+
     def start_at_power(self, power: int, steering: int = 0) -> None:
         """Starts moving the Driving Base without speed control.
 
@@ -728,7 +728,7 @@ class MotorPair:
             steering or power is not an integer.
         RuntimeError
             One or both of the Ports do not have a motor connected or the motors could not be paired.
-        
+
         Example
         -------
         ::
@@ -769,7 +769,7 @@ class MotorPair:
             left_power or right_power is not an integer.
         RuntimeError
             One or both of the Ports do not have a motor connected or the motors could not be paired.
-        
+
         Example
         -------
         ::
@@ -791,7 +791,7 @@ class MotorPair:
         int
             The default motor speed (-100 to 100 both inclusive).
         """
-    
+
     def set_motor_rotation(self, amount: float = 17.6, unit: Literal["cm", "in"] = "cm") -> None:
         """Sets the ratio of one motor rotation to the distance traveled.
 
@@ -813,7 +813,7 @@ class MotorPair:
             amount is not a number or unit is not a string.
         ValueError
             unit is not one of the allowed values.
-        
+
         Example
         -------
         ::
@@ -827,7 +827,7 @@ class MotorPair:
 
             motor_pair.set_motor_rotation(17.6 * math.pi, 'cm')
         """
-    
+
     def set_default_speed(self, speed: int) -> None:
         """Sets the default motor speed.
 
@@ -846,7 +846,7 @@ class MotorPair:
         TypeError
             speed is not a number.
         """
-    
+
     def set_stop_action(self, action: Literal["brake", "hold", "coast"] = "coast") -> None:
         """Sets the motor action that will be used when the Driving Base stops.
 
@@ -870,7 +870,7 @@ class MotorPair:
             action is not a string.
         ValueError
             action is not one of the allowed values.
-        
+
         Example
         -------
         ::
@@ -884,4 +884,256 @@ class MotorPair:
 
             motor_pair.set_stop_action('coast')
 
+        """
+
+
+_Color: TypeAlias = Literal['black', 'violet', 'blue',
+                            'cyan', 'green', 'yellow', 'red', 'white', None]
+
+
+class ColorSensor:
+    """To use the Color Sensor, you must first initialize it.
+
+    Example
+    -------
+    ::
+
+        from spike import ColorSensor
+
+
+        # Initialize the Color Sensor
+        color = ColorSensor('E')
+
+    """
+
+    def __init__(self, port: PortLetter) -> None: ...
+
+    def get_color(self) -> _Color:
+        """Retrieves the detected color of a surface.
+
+        Returns
+        -------
+        _Color
+            Name of the color.
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import ColorSensor
+
+
+            # Initialize the Color Sensor
+
+            paper_scanner = ColorSensor('E')
+
+
+            # Measure the color
+
+            color = paper_scanner.get_color()
+
+
+            # Print the color name to the console
+
+            print('Detected:', color)
+
+
+            # Check if it's a specific color
+
+            if color == 'red':
+                print('It is red!')
+        """
+
+    def get_ambient_light(self) -> int:
+        """Retrieves the intensity of the ambient light.
+
+        This causes the Color Sensor to change modes, which can affect your program in unexpected ways. For example, the Color Sensor can't read colors when it's in ambient light mode.
+
+        Returns
+        -------
+        int
+            The ambient light intensity (0 to 100 both inclusive).
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_reflected_light(self) -> int:
+        """Retrieves the intensity of the reflected light.
+
+        Returns
+        -------
+        int
+            The reflected light intensity (0 to 100 inclusive).
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_rgb_intensity(self) -> Tuple[int, int, int, int]:
+        """Retrieves the overall color intensity, and intensity of red, green, and blue.
+
+        Returns
+        -------
+        Tuple[int, int, int]
+            Tuple that holds the RGB and overall intensities (0 to 1024 each).
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_red(self) -> int:
+        """Retrieves the color intensity of red.
+
+        Returns
+        -------
+        int
+            Intensity (0 to 1024)
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_green(self) -> int:
+        """Retrieves the color intensity of green.
+
+        Returns
+        -------
+        int
+            Intensity (0 to 1024)
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def get_blue(self) -> int:
+        """Retrieves the color intensity of blue.
+
+        Returns
+        -------
+        int
+            Intensity (0 to 1024)
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def wait_until_color(self, color: _Color) -> None:
+        """Waits until the Color Sensor detects the specified color.
+
+        Parameters
+        ----------
+        color : _Color
+            The name of the color
+
+        Raises
+        ------
+        TypeError
+            color is not a string or None.
+        ValueError
+            color is not one of the allowed values.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import ColorSensor
+
+            color_sensor = ColorSensor('A')
+
+            color_sensor.wait_until_color('blue')
+
+            # Add actions after this
+
+        """
+
+    def wait_for_new_color(self) -> _Color:
+        """Waits until the Color Sensor detects a new color.
+
+        The first time this method is called, it immediately returns the detected color. After that, it waits until the Color Sensor detects a color that’s different from the color that was detected the last time this method was used.
+
+        Returns
+        -------
+        _Color
+            The name of the new color
+
+        Raises
+        ------
+        RuntimeError
+            The sensor has been disconnected from the Port.
+
+        Example
+        -------
+        ::
+
+            from spike import ColorSensor
+
+            color_sensor = ColorSensor('A')
+
+            while True:
+                color = color_sensor.wait_for_new_color()
+                if color == 'black':
+                    # For example, steer left
+                elif color == 'white':
+                    # For example, steer right
+
+        """
+
+    def light_up_all(self, brightness: int = 100) -> None:
+        """Lights up all of the lights on the Color Sensor at the specified brightness.
+
+        This causes the Color Sensor to change modes, which can affect your program in unexpected ways. For example, the Color Sensor can't read colors when it's in light up mode.
+
+        Parameters
+        ----------
+        brightness : int, optional
+            The desired brightness of the lights on the Color Sensor (0 is off, 100 is full brightness), by default 100
+
+        Raises
+        ------
+        TypeError
+            brightness is not an integer.
+        RuntimeError
+            The sensor has been disconnected from the Port.
+        """
+
+    def light_up(self, light_1: int, light_2: int, light_3: int) -> None:
+        """Sets the brightness of the individual lights on the Color Sensor.
+
+        This causes the Color Sensor to change modes, which can affect your program in unexpected ways. For example, the Color Sensor can't read colors when it's in light up mode.
+
+        Parameters
+        ----------
+        light_1 : int
+            The desired brightness of light 1 (0 is off, 100 is full brightness).
+        light_2 : int
+            The desired brightness of light 2 (0 is off, 100 is full brightness).
+        light_3 : int
+            The desired brightness of light 3 (0 is off, 100 is full brightness).
+
+        Raises
+        ------
+        TypeError
+            light_1, light_2, or light_3 is not an integer.
+        RuntimeError
+            The sensor has been disconnected from the Port.
         """
