@@ -1486,13 +1486,18 @@ class LightMatrix:
 
         """
 
-_StatusLightColor: TypeAlias = Literal["azure", "black", "blue", "cyan", "green", "orange", "pink", "red", "violet", "yellow", "white"]
+
+_StatusLightColor: TypeAlias = Literal["azure", "black", "blue",
+                                       "cyan", "green", "orange", "pink", "red", "violet", "yellow", "white"]
+
 
 class StatusLight:
     """Do not instantiate this class manually. Use hub = PrimeHub(); hub.status_light instead.
     """
+
     def __init__(self) -> None: ...
-    def on(self, color: _StatusLightColor = 'white') -> None:
+
+    def on(self, color: _StatusLightColor = "white") -> None:
         """Sets the color of the light.
 
         Parameters
@@ -1506,7 +1511,7 @@ class StatusLight:
             color is not a string.
         ValueError
             color is not one of the allowed values.
-        
+
         Example
         -------
         ::
@@ -1518,7 +1523,7 @@ class StatusLight:
             hub.status_light.on('blue')
 
         """
-    
+
     def off(self) -> None:
         """Turns off the light.
 
