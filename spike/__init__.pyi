@@ -2165,6 +2165,104 @@ class App:
         """
 
 
+class Button:
+    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.left_button or hub.right_button instead.
+    """
+    def __init__(self) -> None: ...
+    def wait_until_pressed(self) -> None:
+        """Waits until the button is pressed.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+
+            # Beep every time the Left Button is pressed
+
+            while True:
+                hub.left_button.wait_until_pressed()
+                hub.speaker.start_beep()
+                hub.left_button.wait_until_released()
+                hub.speaker.stop()
+
+        """
+    
+    def wait_until_released(self) -> None:
+        """Waits until the button is released.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+
+            # Beep every time the button is pressed
+
+            while True:
+                hub.left_button.wait_until_pressed()
+                hub.speaker.start_beep()
+                hub.left_button.wait_until_released()
+                hub.speaker.stop()
+
+        """
+    
+    def was_pressed(self) -> bool:
+        """Tests to see whether the button has been pressed since the last time this method called.
+
+        Once this method returns "true," the button must be released and pressed again before it will return "true" again.
+
+        Returns
+        -------
+        bool
+            if the button was pressed, True, otherwise False
+        
+        Example
+        -------
+        ::
+        
+            from spike import PrimeHub
+            from spike.control import wait_for_seconds
+
+            hub = PrimeHub()
+
+            while True:
+                wait_for_seconds(5)
+                if hub.left_button.was_pressed():
+
+                    # Do something
+
+        """
+    
+    def is_pressed(self) -> bool:
+        """Tests whether the button is pressed.
+
+        Returns
+        -------
+        bool
+            True if the button is pressed, otherwise false
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            if hub.left_button.is_pressed():
+
+                # Do something
+
+        """
+
+
 class PrimeHub:
     """The Hub is divided into six components, each with a number of functions linked to it.
 
@@ -2187,3 +2285,5 @@ class PrimeHub:
         self.light_matrix = LightMatrix()
         self.status_light = StatusLight()
         self.speaker = Speaker()
+        self.right_button = Button()
+        self.left_button = Button()
