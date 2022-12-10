@@ -1486,6 +1486,54 @@ class LightMatrix:
 
         """
 
+_StatusLightColor: TypeAlias = Literal["azure", "black", "blue", "cyan", "green", "orange", "pink", "red", "violet", "yellow", "white"]
+
+class StatusLight:
+    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.status_light instead.
+    """
+    def __init__(self) -> None: ...
+    def on(self, color: _StatusLightColor = 'white') -> None:
+        """Sets the color of the light.
+
+        Parameters
+        ----------
+        color : _StatusLightColor, optional
+            Illuminates the Hub’s Brick Status Light in the specified color, by default 'white'
+
+        Raises
+        ------
+        TypeError
+            color is not a string.
+        ValueError
+            color is not one of the allowed values.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.status_light.on('blue')
+
+        """
+    
+    def off(self) -> None:
+        """Turns off the light.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.status_light.off()
+
+        """
+
 
 class PrimeHub:
     """The Hub is divided into six components, each with a number of functions linked to it.
@@ -1507,3 +1555,4 @@ class PrimeHub:
     def __init__(self) -> None:
         self.motion_sensor = MotionSensor()
         self.light_matrix = LightMatrix()
+        self.status_light = StatusLight()
