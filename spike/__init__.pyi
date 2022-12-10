@@ -1137,3 +1137,228 @@ class ColorSensor:
         RuntimeError
             The sensor has been disconnected from the Port.
         """
+
+_Gesture_With_none: TypeAlias = Literal["shaken", "tapped", "double-tapped", "falling", "none"]
+_Gesture: TypeAlias = Literal["shaken", "tapped", "double-tapped", "falling"]
+_Orientation: TypeAlias = Literal["front", "back", "up", "down", "leftside", "rightside"]
+
+
+class MotionSensor:
+    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.motion_sensor instead.
+    """
+    def __init__(self) -> None: ...
+    def was_gesture(self, gesture: _Gesture_With_none) -> bool:
+        """Tests whether a gesture has occurred since the last time was_gesture() was used, or since the beginning of the program (for the first use).
+
+        Parameters
+        ----------
+        gesture : _Gesture
+            The name of the gesture.
+
+        Returns
+        -------
+        bool
+            True if the gesture has occurred since the last time was_gesture() was called, otherwise false.
+
+        Raises
+        ------
+        TypeError
+            gesture is not a string.
+        ValueError
+            gesture is not one of the allowed values.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+            from spike.control import wait_for_seconds
+
+            hub = PrimeHub()
+
+            wait_for_seconds(5)
+            if hub.motion_sensor.was_gesture('shaken'):
+                # the Hub was shaken some time within the last 5 seconds
+        """
+
+    def wait_for_new_gesture(self) -> _Gesture:
+        """Waits until a new gesture happens.
+
+        Returns
+        -------
+        _Gesture
+            The new gesture.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            gesture = hub.motion_sensor.wait_for_new_gesture()
+            if gesture == 'shaken':
+                # do one thing
+            elif gesture == 'tapped':
+                # do another thing
+
+        """
+    
+    def wait_for_new_orientation(self) -> _Orientation:
+        """Waits until the Hub’s orientation changes.
+
+        The first time this method is called, it will immediately return the current value. After that, calling this method will block the program until the Hub’s orientation has changed since the previous time this method was called.
+
+        Returns
+        -------
+        _Orientation
+            The Hub’s new orientation.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            orientation = hub.motion_sensor.wait_for_new_orientation()
+            if orientation == 'leftside':
+                # do one thing
+            elif orientation == 'rightside':
+                # do another thing
+
+        """
+    
+    def get_orientation(self) -> _Orientation:
+        """Retrieves the Hub's current orientation.
+
+        Returns
+        -------
+        _Orientation
+            The Hub’s current orientation.
+        
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            if hub.motion_sensor.get_orientation() == 'front':
+                # do something
+
+        """
+    
+    def get_gesture(self) -> _Gesture:
+        """Retrieves the most recently-detected gesture.
+
+        Returns
+        -------
+        _Gesture
+            The gesture.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            while True:
+                if hub.motion_sensor.get_gesture() == 'falling':
+                    print("Aaah!")
+
+        """
+    
+    def get_roll_angle(self) -> int:
+        """Retrieves the Hub’s roll angle.
+
+        Roll is the rotation around the front-back (longitudinal) axis. Yaw is the rotation around the front-back (vertical) axis. Pitch is the rotation around the left-right (transverse) axis.
+
+        Returns
+        -------
+        int
+            The roll angle, specified in degrees (-180 to 180).
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            if hub.motion_sensor.get_roll_angle() > 90:
+                # do something
+
+        """
+    
+    def get_pitch_angle(self) -> int:
+        """Retrieves the Hub’s pitch angle.
+
+        Pitch is the rotation around the left-right (transverse) axis. Roll is the rotation around the front-back (longitudinal) axis. Yaw is the rotation around the front-back (vertical) axis.
+
+        Returns
+        -------
+        int
+            The pitch angle, specified in degrees (-180 to 180).
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            if hub.motion_sensor.get_pitch_angle() > 90:
+                # do something
+
+        """
+    
+    def get_yaw_angle(self) -> int:
+        """Retrieves the Hub’s yaw angle.
+
+        Yaw is the rotation around the front-back (vertical) axis. Pitch the is rotation around the left-right (transverse) axis. Roll the is rotation around the front-back (longitudinal) axis.
+
+        Returns
+        -------
+        int
+            The yaw angle, specified in degrees (-180 to 180).
+        
+        Example
+        -------
+        ::
+        
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            if hub.motion_sensor.get_yaw_angle() > 90:
+                # do something
+
+        """
+    
+    def reset_yaw_angle(self) -> None:
+        """Sets the yaw angle to "0."
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.motion_sensor.reset_yaw_angle()
+            angle = hub.motion_sensor.get_yaw_angle()
+            print('Angle:', angle)
+
+            # Angle is now 0
+
+        """
