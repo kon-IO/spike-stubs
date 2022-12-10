@@ -1540,6 +1540,155 @@ class StatusLight:
         """
 
 
+class Speaker:
+    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.speaker instead.
+    """
+    def __init__(self) -> None: ...
+    def beep(self, note: float = 60, seconds: float = 0.2) -> None:
+        """Plays a beep on the Hub.
+
+        Your program will not continue until seconds have passed.
+
+        Parameters
+        ----------
+        note : float, optional
+            The MIDI note number (44 to 123, 60 is middle C), by default 60
+        seconds : float, optional
+            The duration of the beep, specified in seconds, by default 0.2
+
+        Raises
+        ------
+        TypeError
+            note is not an integer or seconds is not a number.
+        ValueError
+            note is not within the allowed range of 44-123.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+
+            # beep beep beep!
+
+            hub.speaker.beep(60, 0.5)
+            hub.speaker.beep(67, 0.5)
+            hub.speaker.beep(60, 0.5)
+
+        """
+    
+    def start_beep(self, note: float = 60) -> None:
+        """Starts playing a beep.
+
+        The beep will play indefinitely until stop() or another beep method is called.
+
+        Parameters
+        ----------
+        note : float, optional
+            The MIDI note number (44 to 123, 60 is middle C), by default 60
+
+        Raises
+        ------
+        TypeError
+            note is not an integer.
+        ValueError
+            note is not within the allowed range of 44-123.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.speaker.start_beep()
+
+            # Do something
+
+            hub.speaker.stop()
+
+        """
+    
+    def stop(self) -> None:
+        """Stops any sound that is playing.
+
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+            hub.speaker.start_beep()
+
+            # Do something
+
+            hub.speaker.stop()
+
+        """
+    
+    def get_volume(self) -> int:
+        """Retrieves the value of the speaker volume.
+
+        This only retrieves the volume of the Hub, not the programming app.
+
+        Returns
+        -------
+        int
+            The current volume (0 to 100).
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+
+            # Increase the volume of the Hub speaker by 10%
+
+            hub.speaker.set_volume(hub.speaker.get_volume() + 10)
+
+        """
+    
+    def set_volume(self, volume: int) -> None:
+        """Sets the speaker volume.
+
+        If the assigned volume is out of range, the nearest volume (i.e., 0 or 100) will be used instead. This only sets the volume of the Hub, not the programming app.
+
+        Parameters
+        ----------
+        volume : int
+            The new volume percentage (0 to 100).
+
+        Raises
+        ------
+        TypeError
+            volume is not an integer.
+        
+        Example
+        -------
+        ::
+
+            from spike import PrimeHub
+
+            hub = PrimeHub()
+
+
+            # Set the Hub speaker volume to 50%
+
+            hub.speaker.set_volume(50)
+
+        """
+        raise TypeError
+
+
 class PrimeHub:
     """The Hub is divided into six components, each with a number of functions linked to it.
 
@@ -1561,3 +1710,4 @@ class PrimeHub:
         self.motion_sensor = MotionSensor()
         self.light_matrix = LightMatrix()
         self.status_light = StatusLight()
+        self.speaker = Speaker()
