@@ -1,4 +1,5 @@
-from typing import Callable, TypeVar
+from typing import Callable, TypeVar, Protocol, Any
+from abc import abstractmethod
 
 
 def wait_for_seconds(seconds: float) -> None:
@@ -27,11 +28,21 @@ def wait_for_seconds(seconds: float) -> None:
     """
 
 
+# Thanks to https://stackoverflow.com/a/65224102 !
+class _Comparable(Protocol):
+    """Protocol for annotating comparable types"""
+
+    # @abstractmethod
+    # def __lt__(self: _Any_Comp, other: Any) -> bool: ...
+    @abstractmethod
+    def __lt__(self: _Any_Comp, other: Any, /) -> bool: ...
+
+
 _Any = TypeVar('_Any')
-_Any_Other = TypeVar('_Any_Other')
+_Any_Comp = TypeVar('_Any_Comp', bound=_Comparable)
 
 
-def wait_until(get_value_function: Callable[[], _Any], operator_funtion: Callable[[_Any, _Any_Other], bool], target_value: _Any_Other) -> None:
+def wait_until(get_value_function: Callable[[], _Any_Comp], operator_funtion: Callable[[_Any_Comp, _Any_Comp], bool], target_value: _Any_Comp) -> None:
     """Waits until the condition is true before continuing with the program.
 
     Parameters
