@@ -47,11 +47,11 @@ def wait_until(get_value_function: Callable[[], _Any_Comp], operator_funtion: Ca
 
     Parameters
     ----------
-    get_value_function : Callable[[], _Any]
+    get_value_function : Callable[[], Any]
         A function that returns the current value to be compared to the target value.
-    operator_funtion : Callable[[_Any, _Any], bool]
+    operator_funtion : Callable[[Any, Any], bool]
         A function that compares two arguments. The first argument will be the result of get_value_function(), and the second argument will be target_value. The function will compare both values and return the result.
-    target_value : _Any
+    target_value : Any
         Any object that can be compared by operator_function.
 
     Returns
