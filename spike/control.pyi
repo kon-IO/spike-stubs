@@ -28,9 +28,10 @@ def wait_for_seconds(seconds: float) -> None:
 
 
 _Any = TypeVar('_Any')
+_Any_Other = TypeVar('_Any_Other')
 
 
-def wait_until(get_value_function: Callable[[], _Any], operator_funtion: Callable[[_Any, _Any], bool], target_value: _Any) -> None:
+def wait_until(get_value_function: Callable[[], _Any], operator_funtion: Callable[[_Any, _Any_Other], bool], target_value: _Any_Other) -> None:
     """Waits until the condition is true before continuing with the program.
 
     Parameters
