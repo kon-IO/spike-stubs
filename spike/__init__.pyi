@@ -1147,7 +1147,20 @@ _Orientation: TypeAlias = Literal["front",
 
 
 class MotionSensor:
-    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.motion_sensor instead.
+    """Do not instantiate this class manually. Use `hub = PrimeHub(); hub.motion_sensor` instead.
+
+    The Motion Sensor inside the Hub.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        yaw = hub.motion_sensor.get_yaw_angle()
+
     """
 
     def __init__(self) -> None: ...
@@ -1374,7 +1387,20 @@ _Image: TypeAlias = Literal["ANGRY", "ARROW_E", "ARROW_N", "ARROW_NE", "ARROW_NW
 
 
 class LightMatrix:
-    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.light_matrix instead.
+    """Do not instantiate this class manually. Use `hub = PrimeHub(); hub.light_matrix` instead.
+
+    The Light Matrix on the Hub.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        hub.light_matrix.off()
+
     """
 
     def __init__(self) -> None: ...
@@ -1492,7 +1518,20 @@ _StatusLightColor: TypeAlias = Literal["azure", "black", "blue",
 
 
 class StatusLight:
-    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.status_light instead.
+    """Do not instantiate this class manually. Use `hub = PrimeHub(); hub.status_light` instead.
+
+    The Brick Status Light on the Hub’s Center Button.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        hub.status_light.on('blue')
+
     """
 
     def __init__(self) -> None: ...
@@ -1541,7 +1580,20 @@ class StatusLight:
 
 
 class Speaker:
-    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.speaker instead.
+    """Do not instantiate this class manually. Use `hub = PrimeHub(); hub.speaker` instead.
+
+    The speaker inside the Hub.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        hub.speaker.beep()
+
     """
 
     def __init__(self) -> None: ...
@@ -2166,9 +2218,34 @@ class App:
 
 
 class Button:
-    """Do not instantiate this class manually. Use hub = PrimeHub(); hub.left_button or hub.right_button instead.
+    """Do not instantiate this class manually. Use `hub = PrimeHub(); hub.left_button` or `hub = PrimeHub(); hub.right_button` instead.
+
+    The left or right button on the Hub.
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        hub.left_button.wait_until_pressed()
+
+    Example
+    -------
+    ::
+
+        from spike import PrimeHub
+
+        hub = PrimeHub()
+
+        hub.right_button.wait_until_pressed()
+
     """
+
     def __init__(self) -> None: ...
+
     def wait_until_pressed(self) -> None:
         """Waits until the button is pressed.
 
@@ -2190,7 +2267,7 @@ class Button:
                 hub.speaker.stop()
 
         """
-    
+
     def wait_until_released(self) -> None:
         """Waits until the button is released.
 
@@ -2212,7 +2289,7 @@ class Button:
                 hub.speaker.stop()
 
         """
-    
+
     def was_pressed(self) -> bool:
         """Tests to see whether the button has been pressed since the last time this method called.
 
@@ -2222,11 +2299,11 @@ class Button:
         -------
         bool
             if the button was pressed, True, otherwise False
-        
+
         Example
         -------
         ::
-        
+
             from spike import PrimeHub
             from spike.control import wait_for_seconds
 
@@ -2239,7 +2316,7 @@ class Button:
                     # Do something
 
         """
-    
+
     def is_pressed(self) -> bool:
         """Tests whether the button is pressed.
 
@@ -2247,7 +2324,7 @@ class Button:
         -------
         bool
             True if the button is pressed, otherwise false
-        
+
         Example
         -------
         ::
@@ -2279,6 +2356,12 @@ class PrimeHub:
         hub = PrimeHub()
 
     """
+    PORT_A = "A"
+    PORT_B = "B"
+    PORT_C = "C"
+    PORT_D = "D"
+    PORT_E = "E"
+    PORT_F = "F"
 
     def __init__(self) -> None:
         self.motion_sensor = MotionSensor()
