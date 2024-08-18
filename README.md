@@ -1,5 +1,7 @@
 # Stubs for common Lego SPIKE Prime Python modules
 
+### Update: This is no longer useful for new versions of the SPIKE App, since they provide code suggestions.
+
 This project contains the documentation that is offered in the SPIKE App in stub files.
 
 The purpose of this project is to enable you to use your favorite code editor with code suggestions to write code for the SPIKE Prime Hub.
