@@ -1,4 +1,4 @@
-# Stubs for common Lego SPIKE Prime Python modules
+# Stubs for old Lego SPIKE Prime Python modules
 
 ### Update: This is no longer useful for new versions of the SPIKE App, since they provide code suggestions.
 
