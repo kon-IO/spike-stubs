@@ -1,6 +1,6 @@
 # Stubs for old Lego SPIKE Prime Python modules
 
-### Update: This is no longer useful for new versions of the SPIKE App, since they provide code suggestions.
+### Update: This is no longer useful for new versions of the SPIKE App, since they provide code suggestions. Furthermore, the API has changed and grown since I made these stub files. Therefore, I am archiving this repository and will no longer be updating it (it was not up to date at the time of archiving either).
 
 This project contains the documentation that is offered in the SPIKE App in stub files.
 
